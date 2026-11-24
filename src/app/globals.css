@@ -1,0 +1,293 @@
+@import "tailwindcss";
+
+@theme {
+  /* --- Parrot OS-inspireret palette ------------------------------- */
+  --color-ink-950: #02080a;
+  --color-ink-900: #041014;
+  --color-ink-850: #061a20;
+  --color-ink-800: #08222a;
+  --color-ink-700: #0c2f39;
+  --color-ink-600: #12414d;
+  --color-line: #16505e;
+
+  --color-teal-glow: #1ee0cf;
+  --color-teal-core: #12b8ae;
+  --color-teal-deep: #0a7f83;
+
+  --color-lime-acid: #a6f53c;
+  --color-amber-sun: #ffb422;
+  --color-magenta-hot: #ff2f8e;
+  --color-danger-red: #ff4d5e;
+  --color-info-blue: #3aa5ff;
+  --color-ok-green: #35dd8b;
+
+  --color-bone: #e2f6f2;
+  --color-muted: #6e97a1;
+  --color-dim: #47707b;
+
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo,
+    Consolas, "Liberation Mono", monospace;
+  --font-display: "Chakra Petch", "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-teal-deep) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: color-mix(in oklab, var(--color-ink-900) 80%, black);
+  border-radius: 99px;
+  border: 1px solid color-mix(in oklab, var(--color-line) 45%, transparent);
+}
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--color-teal-core),
+    var(--color-teal-deep)
+  );
+  border-radius: 99px;
+  border: 2px solid var(--color-ink-950);
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    var(--color-teal-glow),
+    var(--color-lime-acid)
+  );
+}
+
+html,
+body {
+  background: var(--color-ink-950);
+  color: var(--color-bone);
+}
+
+body {
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-lime-acid);
+  color: #041014;
+}
+
+button {
+  font-family: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Tekstur / baggrund                                                 */
+/* ------------------------------------------------------------------ */
+
+.bg-grain::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  pointer-events: none;
+  opacity: 0.14;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  animation: grain 6s steps(6) infinite;
+}
+
+.scanlines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(30, 224, 207, 0.05) 0px,
+    rgba(30, 224, 207, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: screen;
+}
+
+.grid-floor {
+  background-image:
+    linear-gradient(color-mix(in oklab, var(--color-teal-deep) 26%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--color-teal-deep) 26%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.hatch {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in oklab, var(--color-amber-sun) 30%, transparent) 0 6px,
+    transparent 6px 12px
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Keyframes                                                          */
+/* ------------------------------------------------------------------ */
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-4%, 3%); }
+  40% { transform: translate(3%, -4%); }
+  60% { transform: translate(-3%, -2%); }
+  80% { transform: translate(4%, 2%); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(-0.6deg); }
+  50% { transform: translateY(-9px) rotate(0.8deg); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(4deg); }
+}
+
+@keyframes flap {
+  0%, 100% { transform: rotate(0deg) scaleY(1); }
+  25% { transform: rotate(-34deg) scaleY(0.9); }
+  55% { transform: rotate(16deg) scaleY(1.05); }
+  80% { transform: rotate(-12deg) scaleY(0.97); }
+}
+
+@keyframes tailsway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(3.5deg); }
+}
+
+@keyframes rise {
+  0% { transform: translate(0, 0) scale(0.5); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translate(var(--dx, 0px), -120px) scale(1.25); opacity: 0; }
+}
+
+@keyframes popin {
+  0% { transform: scale(0.86) translateY(8px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-11px) rotate(-1deg); }
+  30% { transform: translateX(10px) rotate(1deg); }
+  45% { transform: translateX(-8px); }
+  60% { transform: translateX(7px); }
+  80% { transform: translateX(-3px); }
+}
+
+@keyframes caret {
+  0%, 45% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes aurora {
+  0% { transform: translate3d(-6%, -4%, 0) scale(1.1) rotate(0deg); }
+  50% { transform: translate3d(7%, 5%, 0) scale(1.28) rotate(9deg); }
+  100% { transform: translate3d(-6%, -4%, 0) scale(1.1) rotate(0deg); }
+}
+
+@keyframes sweep {
+  0% { transform: translateY(-120%); }
+  100% { transform: translateY(820%); }
+}
+
+@keyframes recpulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 77, 94, 0.6); }
+  50% { opacity: 0.45; box-shadow: 0 0 0 9px rgba(255, 77, 94, 0); }
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 0.85; }
+  90% { opacity: 0.55; }
+  100% { transform: translate(var(--dx, 30px), -180px); opacity: 0; }
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes flipout {
+  0% { transform: perspective(1600px) rotateY(0deg) scale(1); opacity: 1; }
+  100% { transform: perspective(1600px) rotateY(-88deg) scale(0.94); opacity: 0.15; }
+}
+
+@keyframes flipin {
+  0% { transform: perspective(1600px) rotateY(88deg) scale(0.94); opacity: 0.15; }
+  100% { transform: perspective(1600px) rotateY(0deg) scale(1); opacity: 1; }
+}
+
+@keyframes glowpulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Hjælpeklasser                                                      */
+/* ------------------------------------------------------------------ */
+
+.anim-bob { animation: bob 3.6s ease-in-out infinite; }
+.anim-sway { animation: sway 4.2s ease-in-out infinite; transform-origin: 50% 0%; }
+.anim-tail { animation: tailsway 3.1s ease-in-out infinite; }
+.anim-flap { animation: flap 0.55s ease-in-out 2; }
+.anim-pop { animation: popin 0.32s cubic-bezier(0.2, 1.4, 0.4, 1) both; }
+.anim-shake { animation: shake 0.5s ease-in-out; }
+.anim-aurora { animation: aurora 26s ease-in-out infinite; }
+.anim-rec { animation: recpulse 1.35s ease-in-out infinite; }
+.anim-flipout { animation: flipout 0.34s ease-in forwards; }
+.anim-flipin { animation: flipin 0.42s cubic-bezier(0.2, 0.9, 0.3, 1) forwards; }
+.anim-glow { animation: glowpulse 2.6s ease-in-out infinite; }
+.anim-spin-slow { animation: spin-slow 18s linear infinite; }
+.anim-ticker { animation: ticker 34s linear infinite; }
+.caret::after {
+  content: "▌";
+  animation: caret 1.05s step-end infinite;
+  color: var(--color-lime-acid);
+}
+
+.text-glow { text-shadow: 0 0 14px color-mix(in oklab, currentColor 55%, transparent); }
+
+.panel {
+  background:
+    linear-gradient(160deg, color-mix(in oklab, var(--color-ink-800) 92%, transparent), color-mix(in oklab, var(--color-ink-950) 88%, transparent));
+  border: 1px solid color-mix(in oklab, var(--color-line) 78%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--color-teal-glow) 12%, transparent),
+    0 18px 40px -24px rgba(0, 0, 0, 0.9);
+}
+
+.panel-flat {
+  background: color-mix(in oklab, var(--color-ink-900) 82%, transparent);
+  border: 1px solid color-mix(in oklab, var(--color-line) 55%, transparent);
+}
+
+.notch {
+  clip-path: polygon(0 10px, 10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-bob, .anim-sway, .anim-tail, .anim-aurora, .bg-grain::after, .anim-ticker {
+    animation: none !important;
+  }
+}
